@@ -30,7 +30,7 @@ const Header = ({ mode, setMode }) => {
             letterSpacing: "2px",
           }}
         >
-          Weather app
+          Weather app 
         </Typography>
       </div>
       <Box>
@@ -56,6 +56,7 @@ const Header = ({ mode, setMode }) => {
           )}
         </IconButton>
         <Tooltip title="Github" placement="top">
+        <a href="https://github.com/Mohamed-Messaoudene/react-weather-app.git" target="_blank" rel="noopener noreferrer">
           <IconButton
             aria-label="github account"
             sx={{
@@ -68,6 +69,7 @@ const Header = ({ mode, setMode }) => {
           >
             <GitHub sx={{ fontSize: { xs: "22px", sm: "26px", md: "30px" } }} />
           </IconButton>
+          </a>
         </Tooltip>
       </Box>
     </Box>
