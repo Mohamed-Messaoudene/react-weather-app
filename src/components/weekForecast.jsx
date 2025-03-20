@@ -12,7 +12,7 @@ import useWeatherContext from "../API/useWeatherContext";
 
 const WeekForecast = React.memo(() => {
   const { cityInput, setErrorMessage } = useWeatherContext();
-  const { weekWeather, isLoading, error } = useCityWeekWeather(cityInput);
+  const { weekWeather, isLoading } = useCityWeekWeather(cityInput,setErrorMessage);
   const theme = useTheme();
   const itemsRef = useRef([]);
 
@@ -21,12 +21,6 @@ const WeekForecast = React.memo(() => {
       <WeekForecastItem key={dayForecast.id} dayForecast={dayForecast} />
     ));
   }
-  console.log("ana week rani hna");
-  useEffect(() => {
-    if (error) {
-      setErrorMessage(true);
-    }
-  }, [error, setErrorMessage]);
 
   if (isLoading)
     return (
@@ -47,7 +41,7 @@ const WeekForecast = React.memo(() => {
           flexDirection: "column",
           justifyContent: "space-around",
           paddingInline: "20px",
-          mb: "40px",
+          mb: "30px",
         }}
       >
         <Typography
@@ -69,7 +63,7 @@ const WeekForecast = React.memo(() => {
             justifyContent: "space-around",
             alignItems: "center",
             width: "100%",
-            overflowX:"auto"
+            overflowX: "auto",
           }}
         >
           {itemsRef.current}

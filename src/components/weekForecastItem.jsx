@@ -2,7 +2,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import WeatherIcon from "./weatherIcon";
 import {useState ,useEffect} from "react";
 import PropTypes from "prop-types";
-import { convertTemperature } from "../convertTemperature";
+import { convertTemperature } from "../utils/convertTemperature";
 import useWeatherContext from "../API/useWeatherContext";
 
 const WeekForecastItem = ({ dayForecast }) => {
@@ -29,7 +29,6 @@ const WeekForecastItem = ({ dayForecast }) => {
       }
     }
   }, [dayForecast, temperatureUnit, displayTemp]);
-  console.log("weekitem render");
   return (
     <Box
       key={dayForecast.id}

@@ -1,11 +1,6 @@
 import useSWR from "swr";
-const APIKey = "75fd8c3916aa3521e7ce975571d9b7eb";
+const APIKey = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
-// const fetcher = async (...args) => {
-//   const res = await fetch(...args);
-//   const data = await res.json();
-//   return data;
-// };
 const fetcher = async (url) => {
   const response = await fetch(url);
   if (!response.ok) {
@@ -14,7 +9,7 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-export default function useCityWeekWeather(cityName) {
+export default function useCityWeekWeather(cityName,setErrorMessage) {
   const shouldFetch = cityName && cityName.trim() !== "";
 
   const { data, error, isLoading } = useSWR(
@@ -31,11 +26,13 @@ export default function useCityWeekWeather(cityName) {
       return result;
     });
   }
+  if(error){
+    setErrorMessage(`failed when fetching ${cityName} 's  weather infos !!!`);
+  }
 
   return {
     weekWeather: [...mydata],
     isLoading: isLoading,
-    error,
   };
 }
 

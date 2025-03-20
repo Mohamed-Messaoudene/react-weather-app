@@ -1,4 +1,3 @@
-// useWeatherContext.js
 import { useContext } from 'react';
 import  WeatherContext from './createContext';
 

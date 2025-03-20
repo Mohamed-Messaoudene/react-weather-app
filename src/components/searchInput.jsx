@@ -1,113 +1,95 @@
+import { useState, useRef } from "react";
 import { IconButton, Paper, Divider, InputBase, Tooltip } from "@mui/material";
 import { FmdGood, Search } from "@mui/icons-material";
-import PropTypes from "prop-types";
-import {   useRef, useState } from "react";
 import { red } from "@mui/material/colors";
-import useCityName from "../API/useCityName";
 import useWeatherContext from "../API/useWeatherContext";
+import { getCityFromLocation } from "../API/getCityFromLocation"; // Import function
 
 const SearchInput = () => {
   const inputRef = useRef(null);
-  const [isclicked,setIsclicked]=useState(false);
   const [open, setOpen] = useState(false);
-  const { cityInput, setCityInput,setErrorMessage } = useWeatherContext();
+  const { setCityInput, setErrorMessage } = useWeatherContext();
 
   const handleSearchClick = () => {
     setErrorMessage(false);
-    setIsclicked(false);
-    if (inputRef.current.value == "") {
+    const inputValue = inputRef.current.value.trim();
+
+    if (!inputValue) {
       setOpen(true);
-      console.log(inputRef.current.value);
-    } 
+      return;
+    }
+    setCityInput(inputValue);
     inputRef.current.blur();
-    setCityInput(inputRef.current.value);
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       handleSearchClick();
-    
     }
   };
-  const handleMapClick =() => {
-     setIsclicked(true);
-  };
- 
-  const {cityName,error}=useCityName(isclicked);
-   if(cityName){
-    setCityInput(cityName);
-   }  
-   if(error){
-    alert(error)
-   }
+
   return (
-    <>
-      <Paper
-        component="form"
-        sx={{
-          p: "2px 4px",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          borderRadius: "10px",
-          border: "1px solid white",
+    <Paper
+      component="form"
+      sx={{
+        p: "2px 4px",
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        borderRadius: "10px",
+        border: "1px solid white",
+      }}
+    >
+      <Tooltip
+        open={open}
+        disableFocusListener
+        disableHoverListener
+        disableTouchListener
+        title="You have to enter a city"
+        placement="top"
+        componentsProps={{
+          tooltip: {
+            sx: {
+              backgroundColor: red[400],
+              color: "white",
+            },
+          },
         }}
       >
-        <Tooltip
-          open={open}
-          disableFocusListener
-          disableHoverListener
-          disableTouchListener
-          title="you have to enter a city"
-          placement="top"
-          componentsProps={{
-            tooltip: {
-              sx: {
-                backgroundColor: red[400], // Use the desired color from the palette
-                color: "white", // Tooltip text color
-              },
-            },
+        <InputBase
+          inputRef={inputRef}
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search for a city"
+          inputProps={{ "aria-label": "search for a city" }}
+          onKeyDown={handleKeyDown}
+          onFocus={() => {
+            setOpen(false);
+            setErrorMessage(false);
           }}
-        >
-          <InputBase
-            inputRef={inputRef}
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search for a city"
-            inputProps={{ "aria-label": "search for a city" }}
-            onKeyDown={handleKeyDown}
-            onFocus={() => {
-              setOpen(false);
-              setErrorMessage(false)
-            }}
-          />
-        </Tooltip>
+        />
+      </Tooltip>
+      <IconButton
+        type="button"
+        sx={{ p: "10px" }}
+        aria-label="search"
+        onClick={handleSearchClick}
+      >
+        <Search sx={{ fontSize: { xs: "22px", sm: "26px", md: "30px" } }} />
+      </IconButton>
+      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+      <Tooltip title="Your location" placement="top-start">
         <IconButton
-          type="button"
+          color="primary"
           sx={{ p: "10px" }}
-          aria-label="search"
-          onClick={handleSearchClick}
+          aria-label="get location"
+          onClick={() => getCityFromLocation(setCityInput, setErrorMessage,inputRef)}
         >
-        <Search value={cityInput} sx={{fontSize:{ xs: "22px", sm: "26px", md: "30px" }}}  />
+          <FmdGood sx={{ fontSize: { xs: "22px", sm: "26px", md: "30px" } }} />
         </IconButton>
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <Tooltip title="your location" placement="top-start">
-          <IconButton
-            color="primary"
-            sx={{ p: "10px" }}
-            aria-label="directions"
-            onClick={handleMapClick}
-          >
-            <FmdGood sx={{fontSize:{ xs: "22px", sm: "26px", md: "30px" }}}/>
-          </IconButton>
-        </Tooltip>
-      </Paper>
-    </>
+      </Tooltip>
+    </Paper>
   );
-};
-SearchInput.propTypes = {
-  cityInput: PropTypes.string,
-  setCityInput: PropTypes.func,
 };
 
 export default SearchInput;

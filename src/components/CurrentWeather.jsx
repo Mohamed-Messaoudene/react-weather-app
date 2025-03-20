@@ -1,19 +1,26 @@
-import { Box, CircularProgress, Grid, Paper, Toolbar, Typography, useTheme } from "@mui/material";
-import {  WaterDrop, Air, Speed } from "@mui/icons-material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  Paper,
+  Toolbar,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { WaterDrop, Air, Speed } from "@mui/icons-material";
 import useCityWeather from "../API/currentweatherAPI";
 import PropTypes from "prop-types";
 import WeatherIcon from "./weatherIcon";
 import ToggleGroupUnit from "./ToggleGroupUnit";
 import { useEffect, useState } from "react";
 import React from "react";
-import { convertTemperature } from "../convertTemperature";
+import { convertTemperature } from "../utils/convertTemperature";
 import useWeatherContext from "../API/useWeatherContext";
 
 const CurrentWeather = React.memo(() => {
   const theme = useTheme();
-  const { cityInput, temperatureUnit, setErrorMessage } =
-    useWeatherContext();
-  const { weatherState, isLoading, error } = useCityWeather(cityInput);
+  const { cityInput, temperatureUnit, setErrorMessage } = useWeatherContext();
+  const { weatherState, isLoading, error } = useCityWeather(cityInput,setErrorMessage);
   const [displayTemp, setDisplayTemp] = useState({
     temp: weatherState ? weatherState.temp : null,
     feelsLike: weatherState ? weatherState.feelsLike : null,
@@ -41,15 +48,13 @@ const CurrentWeather = React.memo(() => {
       }
     }
   }, [weatherState, temperatureUnit, displayTemp]);
-  useEffect(() => {
-    if (error) {
-      setErrorMessage(true);
-      return;
-    }
-  },[error,setErrorMessage]);
- 
-console.log("ana current rani hna")
-  if (isLoading) return <div><CircularProgress sx={{pr:"15px"}}/> Loading...</div>;
+
+  if (isLoading)
+    return (
+      <div>
+        <CircularProgress sx={{ pr: "15px" }} /> Loading...
+      </div>
+    );
 
   if (weatherState) {
     return (
@@ -60,10 +65,10 @@ console.log("ana current rani hna")
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          width: { xs: "85vw",sm:"75vw",md:"65vw" },
-          height: { xs: 530, md: 350 },
+          width: { xs: "85vw", sm: "75vw", md: "65vw" },
+          height: { xs: 530, md: 330 },
           pb: { xs: "30px", md: "50px" },
-          marginBlock: "30px",
+          marginBlock: "20px",
         }}
       >
         <Toolbar
@@ -111,14 +116,18 @@ console.log("ana current rani hna")
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-            alignItems:{xs:"center",md:"flex-start"},
+              alignItems: { xs: "center", md: "flex-start" },
               color: theme.palette.primary.main,
             }}
           >
             <Typography
               variant="h5"
               color="inherit"
-              sx={{ fontWeight: "bold", pb: "18px" ,fontSize:{xs:"20px",sm:"25px",md:"30px"}}}
+              sx={{
+                fontWeight: "bold",
+                pb: "18px",
+                fontSize: { xs: "20px", sm: "25px", md: "30px" },
+              }}
             >
               {weatherState.city}
             </Typography>
@@ -128,11 +137,16 @@ console.log("ana current rani hna")
                 ml: "-20px",
               }}
             >
-              <WeatherIcon code={weatherState.icon} size="100px"/>
+              <WeatherIcon code={weatherState.icon} size="100px" />
               <Typography
                 variant="body1"
                 component={"span"}
-                sx={{ color: "inherit", fontSize: {xs:"40px",sm:"68px",md:"68px"}, pl: "20px" ,pt:{xs:"15px",sm:"0px"}}}
+                sx={{
+                  color: "inherit",
+                  fontSize: { xs: "40px", sm: "68px", md: "68px" },
+                  pl: "20px",
+                  pt: { xs: "15px", sm: "0px" },
+                }}
               >
                 {displayTemp.temp}°{temperatureUnit === "celicuis" ? "C" : "F"}
               </Typography>
@@ -142,7 +156,7 @@ console.log("ana current rani hna")
               sx={{
                 color: theme.palette.primary.text,
                 fontWeight: "bold",
-                fontSize: {xs:"18px",sm:"22px"},
+                fontSize: { xs: "18px", sm: "22px" },
               }}
             >
               {weatherState.state}
@@ -154,11 +168,11 @@ console.log("ana current rani hna")
             columns={10}
             alignItems={"center"}
             sx={{
-              width: { xs: "90%",sm:"75%", md: "50%" },
+              width: { xs: "90%", sm: "75%", md: "50%" },
               fontSize: { xs: "13px", md: "16px" },
             }}
           >
-            <Grid item xs={10}  >
+            <Grid item xs={10}>
               <Typography variant="body1">
                 Feels like <span>{displayTemp.feelsLike}</span>°
                 {temperatureUnit === "celicuis" ? "C" : "F"}
@@ -168,7 +182,15 @@ console.log("ana current rani hna")
               <Air />
             </Grid>
             <Grid item xs={5}>
-              <Typography variant="body1"  sx={{pl:"12px",fontSize:{xs:"12px",sm:"15px",md:"17px"}}}>Wind speed</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  pl: "12px",
+                  fontSize: { xs: "12px", sm: "15px", md: "17px" },
+                }}
+              >
+                Wind speed
+              </Typography>
             </Grid>
             <Grid item xs={4}>
               <span
@@ -184,7 +206,15 @@ console.log("ana current rani hna")
               <WaterDrop />
             </Grid>
             <Grid item xs={5}>
-              <Typography variant="body1" sx={{pl:"12px",fontSize:{xs:"12px",sm:"15px",md:"17px"}}}>Humidity</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  pl: "12px",
+                  fontSize: { xs: "12px", sm: "15px", md: "17px" },
+                }}
+              >
+                Humidity
+              </Typography>
             </Grid>
             <Grid item xs={4}>
               <span
@@ -200,7 +230,15 @@ console.log("ana current rani hna")
               <Speed />
             </Grid>
             <Grid item xs={5}>
-              <Typography variant="body1"  sx={{pl:"12px",fontSize:{xs:"12px",sm:"15px",md:"17px"}}}>Atmospheric pressure</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  pl: "12px",
+                  fontSize: { xs: "12px", sm: "15px", md: "17px" },
+                }}
+              >
+                Atmospheric pressure
+              </Typography>
             </Grid>
             <Grid item xs={4}>
               <span
