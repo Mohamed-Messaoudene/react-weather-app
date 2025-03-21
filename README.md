@@ -4,7 +4,7 @@
    <img src="https://github.com/user-attachments/assets/7792256a-4c0e-4f3f-a383-5f7fa7ccfd90" width="48%" height="300px" />
   </div>
 
-  [Live Demo](https://mohamed-messaoudene.github.io/react-weather-app/)
+[Live Demo](https://weathergeo.netlify.app/)
 
 ## Features
    - Weather forecast for any city or place
