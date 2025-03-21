@@ -14,14 +14,13 @@ const Header = ({ mode, setMode }) => {
     <Box
       sx={{
         width: "100%",
-        height: "100px",
+        height: "85px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         color: theme.palette.primary.main,
       }}
     >
-      <div style={{ height: "80px",display:"flex",alignItems:"center" }}>
         <Typography
           variant="h5"
           sx={{
@@ -32,7 +31,6 @@ const Header = ({ mode, setMode }) => {
         >
           Weather app 
         </Typography>
-      </div>
       <Box>
         <IconButton
           aria-label="icon for toggle mode"

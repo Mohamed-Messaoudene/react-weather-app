@@ -20,7 +20,7 @@ import useWeatherContext from "../API/useWeatherContext";
 const CurrentWeather = React.memo(() => {
   const theme = useTheme();
   const { cityInput, temperatureUnit, setErrorMessage } = useWeatherContext();
-  const { weatherState, isLoading, error } = useCityWeather(cityInput,setErrorMessage);
+  const { weatherState, isLoading } = useCityWeather(cityInput,setErrorMessage);
   const [displayTemp, setDisplayTemp] = useState({
     temp: weatherState ? weatherState.temp : null,
     feelsLike: weatherState ? weatherState.feelsLike : null,
@@ -66,9 +66,8 @@ const CurrentWeather = React.memo(() => {
           justifyContent: "space-between",
           alignItems: "center",
           width: { xs: "85vw", sm: "75vw", md: "65vw" },
-          height: { xs: 530, md: 330 },
+          height: { xs: 530, md: 310 },
           pb: { xs: "30px", md: "50px" },
-          marginBlock: "20px",
         }}
       >
         <Toolbar

@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import WeekForecastItem from "./weekForecastItem";
 import useCityWeekWeather from "../API/weekforecastAPI";
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import useWeatherContext from "../API/useWeatherContext";
 
 const WeekForecast = React.memo(() => {
